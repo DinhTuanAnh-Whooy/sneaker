@@ -11,12 +11,15 @@ import CartPage from '@/pages/CartPage'
 import CheckoutPage from '@/pages/CheckoutPage'
 import LoginPage from '@/pages/LoginPage'
 import RegisterPage from '@/pages/RegisterPage'
+import ForgotPasswordPage from '@/pages/ForgotPasswordPage'
 import AccountPage from '@/pages/AccountPage'
 import AboutPage from '@/pages/AboutPage'
 import AdminLayout from '@/components/admin/AdminLayout'
 import DashboardPage from '@/pages/admin/DashboardPage'
 import AdminOrdersPage from '@/pages/admin/AdminOrdersPage'
 import AdminProductsPage from '@/pages/admin/AdminProductsPage'
+import AdminUsersPage from '@/pages/admin/AdminUsersPage'
+import AdminSettingsPage from '@/pages/admin/AdminSettingsPage'
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -40,6 +43,7 @@ export default function App() {
         <Route path="/thanh-toan" element={<CheckoutPage />} />
         <Route path="/dang-nhap" element={<LoginPage />} />
         <Route path="/dang-ky" element={<RegisterPage />} />
+        <Route path="/quen-mat-khau" element={<ForgotPasswordPage />} />
         <Route path="/tai-khoan" element={<AccountPage />} />
         <Route path="/ve-chung-toi" element={<AboutPage />} />
 
@@ -48,9 +52,8 @@ export default function App() {
           <Route index element={<DashboardPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="products" element={<AdminProductsPage />} />
-          {/* Mock routes for users and settings */}
-          <Route path="users" element={<DashboardPage />} />
-          <Route path="settings" element={<DashboardPage />} />
+          <Route path="users" element={<AdminUsersPage />} />
+          <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
       </Routes>
     </>

@@ -66,15 +66,20 @@ export default function AdminProductsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    {product.category === 'men' ? 'Nam' : product.category === 'women' ? 'Nữ' : 'Trẻ em'}
+                    {product.category === 'lifestyle' ? 'Lifestyle' : product.category === 'running' ? 'Chạy Bộ' : product.category === 'basketball' ? 'Bóng Rổ' : product.category}
                   </td>
                   <td className="px-6 py-4 font-medium text-muted-foreground uppercase">{product.brand}</td>
                   <td className="px-6 py-4 font-medium text-accent">{formatPrice(product.price)}</td>
-                  <td className="px-6 py-4 font-medium text-right">124</td>
+                  <td className="px-6 py-4 font-medium text-right">{(parseInt(product.id) * 17 + 23) % 200 + 50}</td>
                   <td className="px-6 py-4 text-right">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-secondary text-foreground`}>
-                      {Math.floor(Math.random() * 50) + 5}
-                    </span>
+                    {(() => {
+                      const stock = (parseInt(product.id) * 7 + 3) % 50 + 2
+                      return (
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${stock < 10 ? 'bg-amber-500/10 text-amber-500' : 'bg-secondary text-foreground'}`}>
+                          {stock}
+                        </span>
+                      )
+                    })()}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2 text-muted-foreground">

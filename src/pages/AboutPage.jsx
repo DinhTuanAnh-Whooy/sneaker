@@ -127,7 +127,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <span className="text-accent text-sm font-medium uppercase tracking-wider">Hệ thống cửa hàng</span>
-            <h2 className="text-3xl md:text-4xl font-bold mt-2 font-heading">GHÉT THĂM CHÚNG TÔI</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mt-2 font-heading">GHÉ THĂM CHÚNG TÔI</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {stores.map((store) => (

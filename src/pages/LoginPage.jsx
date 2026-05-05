@@ -74,6 +74,10 @@ export default function LoginPage() {
                 </div>
               </div>
 
+              <div className="flex justify-end">
+                <Link to="/quen-mat-khau" className="text-sm text-accent hover:underline">Quên mật khẩu?</Link>
+              </div>
+
               <button type="submit" disabled={isLoading}
                 className="w-full h-11 bg-primary text-primary-foreground rounded-md font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer">
                 {isLoading ? <><Loader2 className="h-4 w-4 animate-spin" /> Đang đăng nhập...</> : "Đăng Nhập"}
