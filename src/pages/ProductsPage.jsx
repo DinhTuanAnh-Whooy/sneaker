@@ -3,9 +3,11 @@ import { Search, Grid3x3, LayoutGrid } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
-import { products, brands, categories, sizes as allSizes } from '@/data/products'
+import { brands, categories, sizes as allSizes } from '@/data/products'
+import { useProducts } from '@/contexts/ProductsContext'
 
 export default function ProductsPage() {
+  const { products } = useProducts()
   const [selectedBrands, setSelectedBrands] = useState([])
   const [selectedCategories, setSelectedCategories] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])

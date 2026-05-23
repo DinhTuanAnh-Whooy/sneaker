@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { products, formatPrice } from '@/data/products'
+import { formatPrice } from '@/data/products'
+import { useProducts } from '@/contexts/ProductsContext'
 
 const brandsData = [
   { name: "Nike", slug: "nike", description: "Just Do It - Thương hiệu thể thao hàng đầu thế giới.", bgColor: "bg-[#111]" },
@@ -14,6 +15,7 @@ const brandsData = [
 ]
 
 export default function BrandsPage() {
+  const { products } = useProducts()
   return (
     <main className="min-h-screen bg-background">
       <Header />

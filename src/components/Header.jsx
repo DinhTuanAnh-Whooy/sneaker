@@ -15,7 +15,7 @@ const navLinks = [
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { getTotalItems } = useCart()
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const cartCount = getTotalItems()
 
   // Prevent body scroll when mobile menu is open
@@ -48,6 +48,13 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2 md:gap-4">
+            {user?.role === 'admin' && (
+              <Link to="/admin">
+                <span className="hidden md:inline-flex px-3 py-1.5 bg-accent/15 text-accent text-xs font-semibold rounded-full hover:bg-accent hover:text-accent-foreground transition-all cursor-pointer">
+                  Quản Trị
+                </span>
+              </Link>
+            )}
             <Link to={isAuthenticated ? "/tai-khoan" : "/dang-nhap"}>
               <button className="hidden md:flex items-center justify-center h-10 w-10 rounded-md hover:bg-secondary transition-colors cursor-pointer">
                 <User className="h-5 w-5" />
@@ -101,15 +108,26 @@ export default function Header() {
                   </Link>
                 ))}
               </nav>
-              <div className="mt-auto pb-8 flex gap-4">
+              <div className="mt-auto pb-8 flex flex-col gap-3">
+                {user?.role === 'admin' && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setIsOpen(false)}
+                    className="w-full"
+                  >
+                    <button className="w-full py-2.5 px-4 bg-accent text-accent-foreground rounded-md hover:bg-accent/90 transition-colors flex items-center justify-center gap-2 cursor-pointer font-semibold text-sm">
+                      Bảng Điều Khiển Admin
+                    </button>
+                  </Link>
+                )}
                 <Link
                   to={isAuthenticated ? "/tai-khoan" : "/dang-nhap"}
                   onClick={() => setIsOpen(false)}
-                  className="flex-1"
+                  className="w-full"
                 >
-                  <button className="w-full py-2 px-4 border border-border rounded-md hover:bg-secondary transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                  <button className="w-full py-2.5 px-4 border border-border rounded-md hover:bg-secondary transition-colors flex items-center justify-center gap-2 cursor-pointer text-sm">
                     <User className="h-4 w-4" />
-                    {isAuthenticated ? "Tài Khoản" : "Đăng Nhập"}
+                    {isAuthenticated ? "Tài Khoản Của Tôi" : "Đăng Nhập"}
                   </button>
                 </Link>
               </div>

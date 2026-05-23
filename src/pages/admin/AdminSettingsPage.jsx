@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Store, Bell, Shield, Palette, Save, Check } from 'lucide-react'
 
 export default function AdminSettingsPage() {
   const [saved, setSaved] = useState(false)
+  
+  // Settings States
   const [storeName, setStoreName] = useState('SNEAKER')
   const [storeEmail, setStoreEmail] = useState('hello@sneaker.vn')
   const [storePhone, setStorePhone] = useState('028 1234 5678')
@@ -12,21 +14,87 @@ export default function AdminSettingsPage() {
   const [notifyStock, setNotifyStock] = useState(true)
   const [notifyUser, setNotifyUser] = useState(false)
   const [maintenanceMode, setMaintenanceMode] = useState(false)
+  const [theme, setTheme] = useState('dark')
 
+  // Password fields
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+
+  // Load settings on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('sneaker-settings')
+    if (stored) {
+      const config = JSON.parse(stored)
+      setStoreName(config.storeName ?? 'SNEAKER')
+      setStoreEmail(config.storeEmail ?? 'hello@sneaker.vn')
+      setStorePhone(config.storePhone ?? '028 1234 5678')
+      setCurrency(config.currency ?? 'VND')
+      setFreeShipMin(config.freeShipMin ?? '1000000')
+      setNotifyOrder(config.notifyOrder ?? true)
+      setNotifyStock(config.notifyStock ?? true)
+      setNotifyUser(config.notifyUser ?? false)
+      setMaintenanceMode(config.maintenanceMode ?? false)
+      setTheme(config.theme ?? 'dark')
+
+      // Apply theme to document
+      applyTheme(config.theme ?? 'dark')
+    }
+  }, [])
+
+  // Theme application helper
+  const applyTheme = (themeName) => {
+    document.documentElement.classList.remove('light', 'dark', 'navy')
+    if (themeName !== 'dark') {
+      document.documentElement.classList.add(themeName)
+    }
+  }
+
+  // Handle immediate theme selection
+  const handleThemeSelect = (selectedTheme) => {
+    setTheme(selectedTheme)
+    applyTheme(selectedTheme)
+  }
+
+  // Save changes to localStorage
   const handleSave = () => {
+    const config = {
+      storeName,
+      storeEmail,
+      storePhone,
+      currency,
+      freeShipMin,
+      notifyOrder,
+      notifyStock,
+      notifyUser,
+      maintenanceMode,
+      theme
+    }
+
+    localStorage.setItem('sneaker-settings', JSON.stringify(config))
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
 
+  const handlePasswordUpdate = (e) => {
+    e.preventDefault()
+    if (!currentPassword || !newPassword) {
+      alert("Vui lòng nhập mật khẩu hiện tại và mật khẩu mới!")
+      return
+    }
+    alert("Đổi mật khẩu quản trị viên thành công! (Mô phỏng)")
+    setCurrentPassword('')
+    setNewPassword('')
+  }
+
   return (
-    <div className="max-w-4xl mx-auto animate-fade-in-up">
+    <div className="max-w-4xl mx-auto animate-fade-in-up text-sm">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold font-heading">Cài Đặt</h1>
           <p className="text-muted-foreground mt-1">Quản lý cài đặt hệ thống cửa hàng</p>
         </div>
         <button onClick={handleSave}
-          className="px-5 py-2 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors flex items-center gap-2 cursor-pointer">
+          className="px-5 py-2 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors flex items-center gap-2 cursor-pointer border-none">
           {saved ? <><Check className="h-4 w-4" /> Đã lưu!</> : <><Save className="h-4 w-4" /> Lưu thay đổi</>}
         </button>
       </div>
@@ -100,7 +168,7 @@ export default function AdminSettingsPage() {
             <label className="flex items-center justify-between p-4 rounded-lg bg-secondary/30 cursor-pointer hover:bg-secondary/50 transition-colors">
               <div>
                 <p className="font-medium text-sm">Chế độ bảo trì</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Khi bật, trang web sẽ hiển thị thông báo bảo trì cho khách hàng</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Khi bật, trang web sẽ hiển thị thông báo bảo trì cho khách hàng ngoài trang chủ</p>
               </div>
               <div className="relative">
                 <input type="checkbox" checked={maintenanceMode} onChange={(e) => setMaintenanceMode(e.target.checked)} className="sr-only" />
@@ -110,14 +178,28 @@ export default function AdminSettingsPage() {
               </div>
             </label>
 
-            <div className="p-4 rounded-lg bg-secondary/30">
+            <form onSubmit={handlePasswordUpdate} className="p-4 rounded-lg bg-secondary/30">
               <p className="font-medium text-sm mb-3">Đổi mật khẩu Admin</p>
               <div className="space-y-3 max-w-md">
-                <input type="password" placeholder="Mật khẩu hiện tại" className="w-full h-10 px-3 rounded-md bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
-                <input type="password" placeholder="Mật khẩu mới" className="w-full h-10 px-3 rounded-md bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
-                <button className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium cursor-pointer">Cập nhật</button>
+                <input 
+                  type="password" 
+                  placeholder="Mật khẩu hiện tại" 
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  className="w-full h-10 px-3 rounded-md bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary" 
+                />
+                <input 
+                  type="password" 
+                  placeholder="Mật khẩu mới" 
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full h-10 px-3 rounded-md bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary" 
+                />
+                <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium cursor-pointer border-none hover:bg-primary/90 transition-colors">
+                  Cập nhật
+                </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
 
@@ -126,14 +208,21 @@ export default function AdminSettingsPage() {
           <h2 className="text-lg font-bold font-heading mb-6 flex items-center gap-2"><Palette className="h-5 w-5 text-accent" /> Giao Diện</h2>
           <div className="grid grid-cols-3 gap-4">
             {[
-              { name: 'Tối (Mặc định)', active: true, bg: 'bg-[#141414]', fg: 'border-accent' },
-              { name: 'Sáng', active: false, bg: 'bg-white', fg: 'border-border' },
-              { name: 'Xanh Navy', active: false, bg: 'bg-[#0f172a]', fg: 'border-border' },
+              { id: 'dark', name: 'Tối (Mặc định)', bg: 'bg-[#141414]', fg: 'border-accent' },
+              { id: 'light', name: 'Sáng', bg: 'bg-white', fg: 'border-accent' },
+              { id: 'navy', name: 'Xanh Navy', bg: 'bg-[#1a2b4c]', fg: 'border-accent' },
             ].map(t => (
-              <button key={t.name} className={`p-4 rounded-xl border-2 text-center cursor-pointer transition-colors ${t.active ? t.fg : 'border-border hover:border-accent/50'}`}>
+              <button 
+                key={t.id} 
+                type="button"
+                onClick={() => handleThemeSelect(t.id)}
+                className={`p-4 rounded-xl border-2 text-center cursor-pointer transition-all ${
+                  theme === t.id ? 'border-primary bg-secondary/20 shadow-md scale-[1.02]' : 'border-border hover:border-primary/50'
+                }`}
+              >
                 <div className={`w-full h-16 rounded-lg ${t.bg} mb-3 border border-border`} />
                 <p className="text-sm font-medium">{t.name}</p>
-                {t.active && <p className="text-xs text-accent mt-1">Đang sử dụng</p>}
+                {theme === t.id && <p className="text-xs text-accent mt-1">Đang chọn</p>}
               </button>
             ))}
           </div>

@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
-import { products } from '@/data/products'
+import { useProducts } from '@/contexts/ProductsContext'
 
 const brandsList = [
   { name: "NIKE", logo: "NIKE" },
@@ -20,9 +20,9 @@ const categoriesList = [
   { name: "Lifestyle", description: "Phong cách hàng ngày", image: "/categories/lifestyle.jpg", count: "892+ sản phẩm", href: "/san-pham" },
 ]
 
-const featuredProducts = products.slice(0, 8)
-
 export default function HomePage() {
+  const { products } = useProducts()
+  const featuredProducts = products.slice(0, 8)
   return (
     <main className="min-h-screen">
       <Header />

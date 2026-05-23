@@ -100,11 +100,26 @@ function saveOrders(orders) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(orders))
 }
 
+const statusLabels = {
+  pending: "Chờ xác nhận",
+  processing: "Đang xử lý",
+  shipping: "Đang giao hàng",
+  delivered: "Đã giao hàng",
+  cancelled: "Đã hủy"
+}
+
 function ordersReducer(state, action) {
   let newState
   switch (action.type) {
     case 'ADD_ORDER':
       newState = [action.payload, ...state]
+      break
+    case 'UPDATE_ORDER_STATUS':
+      newState = state.map(order =>
+        order.id === action.payload.orderId
+          ? { ...order, status: action.payload.status, statusLabel: statusLabels[action.payload.status] || action.payload.status }
+          : order
+      )
       break
     case 'INIT_MOCK':
       newState = mockOrders
@@ -132,9 +147,13 @@ export function OrdersProvider({ children }) {
   }
 
   const getOrderById = (id) => orders.find(o => o.id === id)
+  
+  const updateOrderStatus = (orderId, status) => {
+    dispatch({ type: 'UPDATE_ORDER_STATUS', payload: { orderId, status } })
+  }
 
   return (
-    <OrdersContext.Provider value={{ orders, addOrder, getOrderById }}>
+    <OrdersContext.Provider value={{ orders, addOrder, getOrderById, updateOrderStatus }}>
       {children}
     </OrdersContext.Provider>
   )

@@ -2,16 +2,19 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Sparkles, Flame, Zap, Star } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { products, formatPrice } from '@/data/products'
-
-const collections = [
-  { id: "new-arrivals", title: "Hàng Mới Về", description: "Những đôi giày mới nhất vừa cập bến SNEAKER", Icon: Sparkles, gradient: "from-orange-500 to-red-500", items: products.filter(p => p.isNew) },
-  { id: "best-sellers", title: "Bán Chạy Nhất", description: "Top sản phẩm được yêu thích nhất tại SNEAKER", Icon: Flame, gradient: "from-pink-500 to-rose-500", items: products.slice(0, 6) },
-  { id: "sale", title: "Đang Giảm Giá", description: "Săn deal hot với giá ưu đãi đặc biệt", Icon: Zap, gradient: "from-green-500 to-emerald-500", items: products.filter(p => p.isSale) },
-  { id: "premium", title: "Premium Collection", description: "Bộ sưu tập cao cấp dành cho tín đồ sneaker", Icon: Star, gradient: "from-amber-500 to-yellow-500", items: products.filter(p => p.price > 5000000) },
-]
+import { formatPrice } from '@/data/products'
+import { useProducts } from '@/contexts/ProductsContext'
 
 export default function CollectionsPage() {
+  const { products } = useProducts()
+
+  const collections = [
+    { id: "new-arrivals", title: "Hàng Mới Về", description: "Những đôi giày mới nhất vừa cập bến SNEAKER", Icon: Sparkles, gradient: "from-orange-500 to-red-500", items: products.filter(p => p.isNew) },
+    { id: "best-sellers", title: "Bán Chạy Nhất", description: "Top sản phẩm được yêu thích nhất tại SNEAKER", Icon: Flame, gradient: "from-pink-500 to-rose-500", items: products.slice(0, 6) },
+    { id: "sale", title: "Đang Giảm Giá", description: "Săn deal hot với giá ưu đãi đặc biệt", Icon: Zap, gradient: "from-green-500 to-emerald-500", items: products.filter(p => p.isSale) },
+    { id: "premium", title: "Premium Collection", description: "Bộ sưu tập cao cấp dành cho tín đồ sneaker", Icon: Star, gradient: "from-amber-500 to-yellow-500", items: products.filter(p => p.price > 5000000) },
+  ]
+
   return (
     <main className="min-h-screen bg-background">
       <Header />

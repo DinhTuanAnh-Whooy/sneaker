@@ -2,7 +2,8 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { products, formatPrice } from '@/data/products'
+import { formatPrice } from '@/data/products'
+import { useProducts } from '@/contexts/ProductsContext'
 
 const brandInfo = {
   nike: { name: "Nike", slogan: "Just Do It", description: "Nike là thương hiệu thể thao hàng đầu thế giới, nổi tiếng với các công nghệ tiên tiến như Air Max, React, ZoomX và những đôi giày mang tính biểu tượng." },
@@ -14,6 +15,7 @@ const brandInfo = {
 }
 
 export default function BrandDetailPage() {
+  const { products } = useProducts()
   const { slug } = useParams()
   const brand = brandInfo[slug]
 

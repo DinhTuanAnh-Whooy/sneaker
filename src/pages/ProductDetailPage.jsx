@@ -3,10 +3,12 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Heart, Share2, Truck, Shield, RotateCcw, Minus, Plus, ShoppingBag, Check } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { products, formatPrice } from '@/data/products'
+import { formatPrice } from '@/data/products'
+import { useProducts } from '@/contexts/ProductsContext'
 import { useCart } from '@/contexts/CartContext'
 
 export default function ProductDetailPage() {
+  const { products } = useProducts()
   const { id } = useParams()
   const product = products.find(p => p.id === id)
   const [selectedSize, setSelectedSize] = useState(null)

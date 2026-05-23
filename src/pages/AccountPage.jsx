@@ -5,7 +5,8 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { useAuth } from '@/contexts/AuthContext'
 import { useOrders } from '@/contexts/OrdersContext'
-import { products, formatPrice } from '@/data/products'
+import { useProducts } from '@/contexts/ProductsContext'
+import { formatPrice } from '@/data/products'
 
 const tabs = [
   { id: "profile", label: "Thông Tin", Icon: User },
@@ -21,9 +22,9 @@ const statusConfig = {
   cancelled: { label: "Đã hủy", color: "text-red-500 bg-red-500/10" },
 }
 
-const wishlistProducts = products.slice(0, 4)
-
 export default function AccountPage() {
+  const { products } = useProducts()
+  const wishlistProducts = products.slice(0, 4)
   const { user, isAuthenticated, logout, updateProfile } = useAuth()
   const { orders } = useOrders()
   const navigate = useNavigate()

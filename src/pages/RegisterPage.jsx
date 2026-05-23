@@ -38,7 +38,7 @@ export default function RegisterPage() {
     setIsLoading(true)
     setError("")
     setTimeout(() => {
-      login({ name, email, phone, avatar: null })
+      login({ name, email, phone, avatar: null, role: 'user' })
       setIsLoading(false)
       navigate("/tai-khoan")
     }, 1500)
