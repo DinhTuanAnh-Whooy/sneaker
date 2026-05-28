@@ -65,11 +65,11 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-accent/20 rounded-full blur-3xl" />
                 <img src="/hero-sneaker.jpg" alt="Featured Sneaker" className="w-full h-full object-contain relative z-10 drop-shadow-2xl" />
               </div>
-              <div className="absolute top-1/4 left-0 bg-card p-4 rounded-lg border border-border animate-fade-in-up delay-400 animate-on-load">
+              <div className="absolute top-1/4 -left-4 xl:-left-12 bg-card/90 backdrop-blur-md p-4 rounded-lg border border-border animate-fade-in-up delay-400 animate-on-load z-20 shadow-xl">
                 <p className="text-2xl font-bold font-heading">1,500+</p>
                 <p className="text-sm text-muted-foreground">Sản Phẩm</p>
               </div>
-              <div className="absolute bottom-1/4 right-0 bg-card p-4 rounded-lg border border-border animate-fade-in-up delay-500 animate-on-load">
+              <div className="absolute bottom-1/4 -right-4 xl:-right-12 bg-card/90 backdrop-blur-md p-4 rounded-lg border border-border animate-fade-in-up delay-500 animate-on-load z-20 shadow-xl">
                 <p className="text-2xl font-bold font-heading">100%</p>
                 <p className="text-sm text-muted-foreground">Chính Hãng</p>
               </div>
